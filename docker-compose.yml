@@ -1,0 +1,87 @@
+version: '3.3'
+services:
+  nutricraft-app:
+    container_name: nutrilife-app
+    build: nutricraft-app
+    ports:
+      - 3001:3001
+    depends_on:
+      - postgres-app
+    environment:
+      DB_HOST: ${DB_HOST}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}
+      DB_PORT: ${DB_PORT_APP}
+    volumes:
+      - ./nutricraft-app:/app/nutricraft-app
+
+  nutricraft-express:
+    container_name: nutricraft-express
+    build: nutricraft-express
+    depends_on:
+      - postgres-express
+    ports:
+      - 8080:8080
+    environment:
+      DATABASE_URL: ${DATABASE_URL_EXPRESS}
+      JWT_KEY: ${JWT_KEY}
+    volumes:
+      - ./nutricraft-express:/app/nutricraft-express
+
+  nutricraft-soap:
+    container_name: nutricraft-soap
+    build: nutricraft-soap
+    ports:
+      - 8081:8081
+    depends_on:
+      - mysql-soap
+    environment:
+      DATABASE_URL: ${DATABASE_URL_SOAP}
+    volumes:
+      - ./nutricraft-soap:/app/nutricraft-soap
+
+  nutricraft-spa:
+    container_name: nutricraft-spa
+    build: nutricraft-spa
+    ports:
+      - 3000:3000
+    volumes:
+      - ./nutricraft-spa:/app/nutricraft-spa
+      - /app/nutricraft-spa/node_modules
+
+
+  postgres-app:
+    image: postgres:latest
+    container_name: postgres-app
+    restart: always
+    ports:
+      - 5434:5432
+    environment:
+      POSTGRES_ROOT_PASSWORD: ${DB_USER}
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+
+  postgres-express:
+    image: postgres:latest
+    container_name: postgres-express
+    restart: always
+    ports:
+      - 5433:5433
+    environment:
+      POSTGRES_ROOT_PASSWORD: ${DB_USER}
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+
+  mysql-soap:
+    image: mysql:latest
+    container_name: mysql-soap
+    ports:
+      - 3307:3307
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_USER}
+      MYSQL_DB: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
