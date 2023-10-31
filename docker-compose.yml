@@ -1,4 +1,5 @@
 version: '3.3'
+
 services:
   nutricraft-app:
     container_name: nutrilife-app
@@ -21,6 +22,7 @@ services:
     build: nutricraft-express
     depends_on:
       - postgres-express
+      - cache
     ports:
       - 8080:8080
     environment:
@@ -31,7 +33,7 @@ services:
 
   nutricraft-soap:
     container_name: nutricraft-soap
-    build: nutricraft-soap
+    build: ./nutricraft-soap
     ports:
       - 8081:8081
     depends_on:
@@ -78,6 +80,7 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
     volumes:
       - db-data2:/var/lib/postgresql
+
   mysql-soap:
     image: mysql:latest
     container_name: mysql-soap
@@ -89,7 +92,19 @@ services:
       MYSQL_USER: ${DB_USER}
       MYSQL_PASSWORD: ${DB_PASSWORD}
 
+  cache:
+    image: redis:6.2-alpine
+    restart: always
+    ports:
+      - '6379:6379'
+    command: redis-server --save 20 1 --loglevel warning --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+    volumes:
+      - cache:/data
+
+
 
 volumes:
   db-data1:
   db-data2:
+  cache:
+    driver: local
