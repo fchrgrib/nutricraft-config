@@ -2,7 +2,7 @@ version: '3.3'
 
 services:
   nutricraft-app:
-    container_name: nutrilife-app
+    container_name: nutricraft-app
     build: nutricraft-app
     ports:
       - 3001:3001
@@ -26,7 +26,7 @@ services:
     ports:
       - 8080:8080
     environment:
-      DATABASE_URL: postgresql://${DB_USER}:${DB_PASSWORD}@express:${DB_PORT_EXPRESS}/${DB_NAME}?schema=public
+      DATABASE_URL: postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST_EXPRESS}:${DB_PORT_EXPRESS}/${DB_NAME}?schema=public
       JWT_KEY: ${JWT_KEY}
     volumes:
       - ./nutricraft-express:/app/nutricraft-express
@@ -40,7 +40,7 @@ services:
     depends_on:
       - mysql-soap
     environment:
-      DATABASE_URL: ${DATABASE_URL_SOAP}
+      DATABASE_URL: jdbc:mysql://${DB_HOST_SOAP}:${DB_PORT_SOAP}/${DB_NAME}
     volumes:
       - ./nutricraft-soap:/app/nutricraft-soap
 
@@ -59,7 +59,7 @@ services:
     container_name: postgres-app
     restart: always
     ports:
-      - 5434:5432
+      - ${DB_PORT_APP}:${DB_PORT_APP}
     environment:
       POSTGRES_ROOT_PASSWORD: ${DB_USER}
       POSTGRES_DB: ${DB_NAME}
@@ -72,7 +72,7 @@ services:
     image: postgres:latest
     restart: always
     ports:
-      - 5433:5433
+      - ${DB_PORT_EXPRESS}:${DB_PORT_EXPRESS}
     environment:
       POSTGRES_ROOT_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: ${DB_NAME}
@@ -80,13 +80,14 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
     volumes:
       - db-data2:/var/lib/postgresql
-    hostname: express
+    hostname: ${DB_HOST_EXPRESS}
 
   mysql-soap:
     image: mysql:latest
     container_name: mysql-soap
     ports:
-      - 3307:3307
+      - ${DB_PORT_SOAP}:${DB_PORT_SOAP}
+    hostname: ${DB_HOST_SOAP}
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_USER}
       MYSQL_DB: ${DB_NAME}
@@ -97,8 +98,8 @@ services:
     image: redis:6.2-alpine
     restart: always
     ports:
-      - '6379:6379'
-    command: redis-server --save 20 1 --loglevel warning --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+      - 6379:6379
+    command: redis-server --save 20 1 --loglevel warning --requirepass ${DB_PASSWORD_REDIS}
     volumes:
       - cache:/data
 
