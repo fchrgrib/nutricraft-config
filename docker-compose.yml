@@ -30,6 +30,7 @@ services:
       JWT_KEY: ${JWT_KEY}
     volumes:
       - ./nutricraft-express:/app/nutricraft-express
+      - /app/nutricraft-express/node_modules
 
   nutricraft-soap:
     container_name: nutricraft-soap
