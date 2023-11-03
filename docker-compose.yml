@@ -26,7 +26,8 @@ services:
     ports:
       - 8080:8080
     environment:
-      DATABASE_URL: postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST_EXPRESS}:${DB_PORT_EXPRESS}/${DB_NAME}?schema=public
+      DATABASE_URL: postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST_EXPRESS}:5432/${DB_NAME}?schema=public
+      DATABASE_URL_REDIS: redis://:${DB_PASSWORD_REDIS}@redis:6379
       JWT_KEY: ${JWT_KEY}
     volumes:
       - ./nutricraft-express:/app/nutricraft-express
@@ -67,12 +68,13 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
     volumes:
       - db-data1:/var/lib/postgresql
+    hostname: ${DB_HOST_APP}
 
   postgres-express:
     image: postgres:latest
     restart: always
     ports:
-      - ${DB_PORT_EXPRESS}:${DB_PORT_EXPRESS}
+      - ${DB_PORT_EXPRESS}:5432
     environment:
       POSTGRES_ROOT_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: ${DB_NAME}
@@ -86,19 +88,20 @@ services:
     image: mysql:latest
     container_name: mysql-soap
     ports:
-      - ${DB_PORT_SOAP}:${DB_PORT_SOAP}
-    hostname: ${DB_HOST_SOAP}
+      - '3307:3306'
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_USER}
-      MYSQL_DB: ${DB_NAME}
+      MYSQL_DATABASE: ${DB_NAME}
       MYSQL_USER: ${DB_USER}
       MYSQL_PASSWORD: ${DB_PASSWORD}
+    hostname: ${DB_HOST_SOAP}
 
   cache:
     image: redis:6.2-alpine
     restart: always
     ports:
       - 6379:6379
+    hostname: redis
     command: redis-server --save 20 1 --loglevel warning --requirepass ${DB_PASSWORD_REDIS}
     volumes:
       - cache:/data
