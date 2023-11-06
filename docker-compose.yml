@@ -29,6 +29,7 @@ services:
       DATABASE_URL: postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST_EXPRESS}:5432/${DB_NAME}?schema=public
       DATABASE_URL_REDIS: redis://:${DB_PASSWORD_REDIS}@redis:6379
       JWT_KEY: ${JWT_KEY}
+      REFRESH_KEY :
     volumes:
       - ./nutricraft-express:/app/nutricraft-express
       - /app/nutricraft-express/node_modules
