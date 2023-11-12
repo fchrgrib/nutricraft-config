@@ -96,6 +96,8 @@ services:
       MYSQL_USER: ${DB_USER}
       MYSQL_PASSWORD: ${DB_PASSWORD}
     hostname: ${DB_HOST_SOAP}
+    volumes:
+    - ./nutricraft-soap/db/db.sql:/docker-entrypoint-initdb.d/db.sql
 
   cache:
     image: redis:6.2-alpine
