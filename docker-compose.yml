@@ -29,7 +29,11 @@ services:
       DATABASE_URL: postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST_EXPRESS}:5432/${DB_NAME}?schema=public
       DATABASE_URL_REDIS: redis://:${DB_PASSWORD_REDIS}@redis:6379
       JWT_KEY: ${JWT_KEY}
-      REFRESH_KEY :
+      REFRESH_KEY : ${REFRESH_KEY}
+      SOAP_KEY: ${SOAP_KEY_REST}
+      SOAP_URL_SUBSCRIBE: ${SOAP_URL_SUBSCRIBE}
+      SOAP_URL_LEVEL: ${SOAP_URL_CREATOR_LEVEL}
+      SOAP_URL_COIN: ${SOAP_URL_COIN}
     volumes:
       - ./nutricraft-express:/app/nutricraft-express
       - /app/nutricraft-express/node_modules
@@ -45,6 +49,8 @@ services:
       DATABASE_URL: jdbc:mysql://${DB_HOST_SOAP}:3306/${DB_NAME}
       DB_USER: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
+      SOAP_KEY_REST: ${SOAP_KEY_REST}
+      SOAP_KEY_APP: ${SOAP_KEY_APP}
 
   nutricraft-spa:
     container_name: nutricraft-spa
