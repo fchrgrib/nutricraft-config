@@ -31,6 +31,7 @@ services:
       JWT_KEY: ${JWT_KEY}
       REFRESH_KEY : ${REFRESH_KEY}
       REDEEM_KEY: ${REDEEM_KEY}
+      USER_KEY: ${USER_KEY}
       SOAP_KEY: ${SOAP_KEY_REST}
       SOAP_URL_SUBSCRIBE: ${SOAP_URL_SUBSCRIBE}
       SOAP_URL_LEVEL: ${SOAP_URL_CREATOR_LEVEL}
@@ -58,6 +59,8 @@ services:
     build: nutricraft-spa
     ports:
       - 3000:3000
+    environment:
+      URL: http://nutricraft-express
     volumes:
       - ./nutricraft-spa:/app/nutricraft-spa
       - /app/nutricraft-spa/node_modules
