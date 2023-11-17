@@ -16,8 +16,11 @@ services:
       DB_PORT: ${DB_PORT_APP}
       SOAP_URL_SUBSCRIBE: ${SOAP_URL_SUBSCRIBE}
       SOAP_URL_USER_LEVEL: ${SOAP_URL_USER_LEVEL}
+      SOAP_URL_EMAIL: ${SOAP_URL_EMAIL}
       SOAP_KEY: ${SOAP_KEY_APP}
       USER_KEY: ${USER_KEY}
+      EMAIL: ${EMAIL}
+      PASSWORD_EMAIL : ${PASSWORD_EMAIL}
 
     volumes:
       - ./nutricraft-app:/app/nutricraft-app
@@ -41,6 +44,8 @@ services:
       SOAP_URL_SUBSCRIBE: ${SOAP_URL_SUBSCRIBE}
       SOAP_URL_LEVEL: ${SOAP_URL_CREATOR_LEVEL}
       SOAP_URL_COIN: ${SOAP_URL_COIN}
+      SOAP_URL_EMAIL : ${SOAP_URL_EMAIL}
+
     volumes:
       - ./nutricraft-express:/app/nutricraft-express
       - /app/nutricraft-express/node_modules
@@ -58,6 +63,8 @@ services:
       DB_PASSWORD: ${DB_PASSWORD}
       SOAP_KEY_REST: ${SOAP_KEY_REST}
       SOAP_KEY_APP: ${SOAP_KEY_APP}
+      EMAIL: ${EMAIL}
+      PASSWORD_EMAIL : ${PASSWORD_EMAIL}
 
   nutricraft-spa:
     container_name: nutricraft-spa
