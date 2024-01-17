@@ -1,0 +1,11 @@
+[submodule "nutricraft-app"]
+    path = nutricraft-app
+    url = https://github.com/fchrgrib/nutricraft-app
+
+[submodule "nutricraft-soap"]
+    path = nutricraft-soap
+    url = https://github.com/fchrgrib/nutricraft-soap
+
+[submodule "nutricraft-express"]
+    path = nutricraft-express
+    url = https://github.com/fchrgrib/nutricraft-express
