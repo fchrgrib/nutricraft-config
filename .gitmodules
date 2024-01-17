@@ -9,3 +9,7 @@
 [submodule "nutricraft-express"]
     path = nutricraft-express
     url = https://github.com/fchrgrib/nutricraft-express
+
+[submodule "nutricraft-spa"]
+    path = nutricraft-spa
+    url = https://github.com/fchrgrib/nutricraft-spa
